@@ -1,0 +1,475 @@
+
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+
+.unikum_mcemodal_fill .mce-reset, .unikum_mcemodal_fill .mce-container-body {
+  width: 100% !important;
+  height: 100% !important;
+  position:relative !important;
+}
+
+
+//umm - #unik_mic_modal
+#unik_mic_modal {
+  width: 100%;
+  height: auto;
+  position: relative;
+  box-sizing: border-box;
+}
+#unik_mic_modal *:not(.glyphicon) {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+.umm_header {
+  height:40px;
+  line-height: 40px;
+  //background: #333;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  #umm_btn_restart, #umm_btn_cancel {
+    text-align: right;
+    color: #ef5350;
+    height: 40px;
+    cursor: pointer;
+    span {
+      line-height: 40px;
+      font-size: 1.8rem;
+      padding: 0 12px;
+    }
+  }
+  #umm_btn_restart {
+    color: black;
+    margin-right: auto;
+    &:hover {color: #e53935;}
+  }
+  #umm_btn_cancel {
+    color: #ef5350;;
+    margin-left: auto;
+    &:hover {color: #e53935;}
+
+  }
+}
+
+.umm_stage_wrapper {
+  width: 100%;
+  height:250px;
+  margin: 0 auto;
+  position:relative;
+}
+
+.umm_stage {
+  display: flex;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  transform: scale(0);
+  animation: umm_disappear 0.3s;
+  position: absolute;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  &.isShowing {
+    z-index: 1;
+    transform: scale(1);
+    animation: umm_appear 0.3s;
+  }
+}
+
+#umm_stage0 > :first-child {
+  margin-right:20px;
+}
+
+.record_nameinput {
+  background: transparent;
+  border: none;
+  min-height: 60px;
+  width:100%;
+  color:#333;
+  border: none;
+  padding-left: 8px;
+  font-size: 3rem;
+  font-weight: 200;
+  padding: 0 5px;
+  white-space: normal;
+  resize: none;
+  overflow: hidden;
+  min-height: 50px;
+  max-height: 100px;
+  box-shadow: none;
+}
+
+
+.umm_sample_wrapper {
+  width:100%;
+  margin: 0 auto;
+  position:relative;
+}
+
+.umm_main_btn_wrapper {
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    .umm_btn_round {
+      box-shadow: 5px 5px 10px -5px rgba(0,0,0,0.8);
+    }
+  }
+  .umm_btn_round {
+    box-shadow: 5px 5px 15px -5px rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    transition: all 0.1s ease;
+    svg {
+      width:50px;
+      height:90px;
+      transition: all 0.3s ease;
+      * {
+        fill: white;
+        stroke: white;
+      }
+    }
+    &.umm_btn_round_small {
+      width: 80px;
+      height: 80px;
+    }
+    &.umm_btn_round_record {
+      background: #ef5350;
+      &:hover {background: #e53935;}
+    }
+    &.umm_btn_round_upload {
+      background: #64b5f6;
+      &:hover {background: #2196f3;}
+    }
+    &.umm_btn_round_recording {
+      animation: umm_pulsate 2s infinite;
+      background: #ef5350;
+    }
+  }
+  .umm_rec_btn_upload_progress {
+    display:none;
+  }
+
+  &.umm_rec_btn_uploading {
+    .umm_rec_btn_upload_standard {
+      display:none;
+    }
+    .umm_rec_btn_upload_progress {
+      display:block;
+      animation: umm_spin 3s infinite linear;
+    }
+  }
+
+}
+
+
+.unikum_audioplayer, .unikum_audioplayer *:not(.glyphicon) {
+  //font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+  position: relative;
+}
+.unikum_audioplayer {
+  width:100%;
+  height:auto;
+  color: #555;
+  margin-bottom:20px;
+
+  .uap_top_wrapper {
+    background: #efefef;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    width:100%;
+    height:120px;
+  }
+  & .glyphicon-pause {
+    display: none;
+  }
+
+  &.unikum_audioplayer__isPlaying {
+   margin-bottom:0px;
+   & .uap_bottom_wrapper {
+      display:flex;
+    }
+   & .glyphicon-play {
+     display: none;
+   }
+   & .glyphicon-pause {
+     display: block;
+   }
+  }
+  .uap_bottom_wrapper {
+    background: #dfdfdf;
+    display:none;
+    align-items: center;
+    justify-content: flex-start;
+    width:100%;
+    height:20px;
+    line-height: 20px;
+    .uap_track_progress {
+      height: 100%;
+      width: 0%;
+      background: #f00;
+      text-align:right;
+      transition: width 1s linear;
+    }
+    .uap_track_time, .uap_track_duration {
+      position:absolute;
+      top:0px;
+      left:0px;
+      right:0px;
+      line-height: 20px;
+      padding: 0 5px;
+    }
+    .uap_track_time {
+      right: 50%;
+      text-align:left;
+    }
+    .uap_track_duration {
+      left: 50%;
+      text-align:right;
+    }
+  }
+}
+
+.uap_txtinfo {}
+
+.uap_playstatus_btn_wrapper {
+  cursor: pointer;
+  text-align: center;
+  height:100%;
+  width: 110px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 15px;
+  &:hover {
+    .glyphicon {
+      color: #eee;
+    }
+  }
+
+  .uap_btn_round {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    transition: all 0.1s ease;
+    background: #fcdc3d;
+    color: #fff;
+    font-size: 3rem;
+    text-align:center;
+    padding-left:7px;
+    background-color: #f00;
+    background-image: -webkit-gradient(linear, left top, right top, from(#f00), to(#f00));
+    background-image: -webkit-linear-gradient(left, #f00, #f00);
+    background-image: -moz-linear-gradient(left, #f00, #f00);
+    background-image: -ms-linear-gradient(left, #f00, #f00);
+    background-image: -o-linear-gradient(left, #f00, #f00);
+    & .glyphicon {
+      transform: scale(1,1.4);
+      transition: color 0.3s;
+      &:before {
+        font-size: inherit;
+      }
+    }
+  }
+}
+
+@keyframes umm_appear {
+  0% {transform:scale(0); z-index: -1; opacity: 0;}
+  50% {transform:scale(0.5); z-index: 0; opacity: 0.5;}
+  100% {transform:scale(1); z-index: 0; opacity: 1;}
+}
+@keyframes umm_disappear {
+  0% {transform:scale(1); z-index: 0; opacity: 1;}
+  50% {transform:scale(0.5); z-index: 0; opacity: 0.5;}
+  100% {transform:scale(0); z-index: -1; opacity: 0;}
+}
+
+@keyframes umm_pulsate {
+  0% {background: #ef5350; opacity: 0.9;}
+  50% {background: #e53935; opacity: 1.0;}
+  100% {background: #ef5350; opacity: 0.9;}
+}
+@keyframes umm_spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg)};
+}
+
+
+
+
+
+.module_top {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  text-align: center;
+  position:relative;
+  .countdown {
+    position:absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    margin: 0 auto;
+    text-align: center;
+    color: black;
+    font-size: 3rem;
+    animation: tryPopIn 1.5s linear;
+  }
+  .text, .timer {
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 30%;
+    margin: 0 auto;
+    text-align: center;
+    color: black;
+    font-size: 3rem;
+    opacity: 0;
+  }
+  .svg-wrapper {
+    position:absolute;
+    left:0%;
+    right:0%;
+    height: 30px;
+    overflow: hidden;
+    margin: 0 auto;
+    top: 40px;
+    max-width: 190px;
+    height:200px;
+    svg {
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      top:0;
+      width:100%;
+      height:100%;
+      * {
+        fill: rgba(0,0,0,0.1)
+      }
+    }
+    .masker {
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0px
+      width:100%;
+      heght:0px;
+      transition: height 0.1s ease;
+      overflow:hidden;
+      svg {
+        position:absolute;
+        bottom:0px;
+        left:0px;
+        right:0px;
+        width:190px;
+        height:200px;
+        top: auto;
+        * {
+          fill: rgba(255,0,0,0.3);
+        }
+      }
+    }
+  }
+  .indicator {
+    position:absolute;
+    margin: 0 auto;
+    width: 140%;
+    margin-left: auto;
+    margin-right: auto;
+    left: -20%;
+    right: -20%;
+    bottom: -50%;
+    background: rgba(255,0,0,0.2);
+    border-radius: 50%;
+    height: 0px;
+  }
+}
+
+#unik_mic_modal.isRecording .indicator {
+  transition: height 0.1s ease;
+  // animation: tryPulse 1s infinite ease-in-out;
+}
+#unik_mic_modal.isRecording .text {
+  animation: tryPopIn 2s ease-in;
+}
+#unik_mic_modal.isRecording .timer.isShowing {
+  opacity: 1;
+  animation: umm_appear 0.5s ease-in-out;
+}
+#unik_mic_modal.isRecordStage svg {
+  animation: slideUp 1s ease-out;
+}
+
+#unik_mic_modal.isRecording .hideWhenRecording,
+#unik_mic_modal.isCountdown .hideWhenCountdown {
+  display:none;
+}
+
+
+#unik_mic_modal:not(.isRecording) .showWhenRecording,
+#unik_mic_modal:not(.isCountdown) .showWhenCountdown {
+  display:none;
+}
+
+#unik_mic_modal.isRecording .showWhenRecording,
+#unik_mic_modal.isCountdown .showWhenCountdown {
+  display:flex;
+}
+
+.module_bottom {
+  height: 450px;
+  width: 100%;
+  background: #efefef;
+}
+
+.module_inner_wrapper {
+  margin: 0 auto;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  width: 300px;
+  .btn {
+    height: 40px;
+    flex: 1 50%;
+  }
+}
+
+
+@keyframes slideUp {
+  0% {top:100%; opacity: 0;}
+  100% {top:0; opacity: 1;}
+}
+
+@keyframes tryFadeIn {
+  0% {top:20%; opacity: 0;}
+  100% {top:30%; opacity: 1;}
+}
+
+@keyframes tryPopIn {
+  0% {top:35%; opacity: 0;}
+  50% {top:40%; opacity: 1;}
+  100% {top:45%; opacity: 0;}
+}
+
+@keyframes tryPulse {
+  0% {height:0%;}
+  50% {height:100%;}
+  100% {height:0%;}
+}

@@ -1,0 +1,226 @@
+/*
+* Gets loaded into the tinymce editor to style the audioplayer
+*/
+
+.unikum_audio {
+  height: 100px;
+  background: #eee;
+  cursor: pointer;
+  border: 3px dashed black;
+  position: relative;
+  text-align: center;
+  padding-top: 30px;
+  font-size: 1.4rem;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+.unikum_audio:before {
+  display:block;
+  color:#666;
+  text-transform: uppercase;
+  content: 'Ljudfil:';
+}
+.unikum_audio:hover:after {
+  display:block;
+}
+.unikum_audio:after {
+  display:none;
+  content: 'Klicka för att granska, drag för att flytta';
+  font-size: 1.4rem;
+  text-align: center;
+  position: absolute;
+  top:0;
+  left:0;
+  bottom: 0;
+  right:0;
+  padding-top: 20px;
+  color: #fff;
+  background: rgba(0,0,0,0.8);
+
+}
+.unikum_audioplayer,
+.unikum_audioplayer * {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.unikum_audioplayer,
+.unikum_audioplayer *:not(.glyphicon) {
+  //font-family: 'Roboto', sans-serif;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+.unikum_audioplayer {
+  text-select:none;
+  width:100%;
+  height:auto;
+  color: #555;
+  margin-bottom:20px;
+}
+.unikum_audioplayer
+.glyphicon-pause{
+  display: none;
+}
+.unikum_audioplayer.unikum_audioplayer__isPlaying {
+  margin-bottom:0px;
+}
+.unikum_audioplayer.unikum_audioplayer__isPlaying
+.uap_bottom_wrapper{
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:-ms-flexbox;
+  display:flex;
+}
+.unikum_audioplayer.unikum_audioplayer__isPlaying
+.glyphicon-play{
+  margin-bottom:0px;
+}
+.unikum_audioplayer.unikum_audioplayer__isPlaying
+.glyphicon-pause{
+  margin-bottom:0px;
+}
+
+.uap_top_wrapper {
+  background: #efefef;
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width:100%;
+  height:120px;
+}
+
+.uap_bottom_wrapper {
+  background: #dfdfdf;
+  display:none;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  width:100%;
+  height:20px;
+  line-height: 20px;
+}
+
+.uap_track_progress {
+  height: 100%;
+  width: 0%;
+  background: @yellow;
+  text-align:right;
+  -webkit-transition: width 1s linear;
+  -o-transition: width 1s linear;
+  transition: width 1s linear;
+}
+
+.uap_track_time,
+.uap_track_duration {
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  line-height: 20px;
+  padding: 0 5px;
+}
+.uap_track_time {
+  right: 50%;
+  text-align:left;
+}
+.uap_track_duration {
+  left: 50%;
+  text-align:right;
+}
+
+.uap_txtinfo {
+  font-size: 3rem;
+  font-weight: 200;
+  padding: 0 5px;
+  white-space: normal;
+  @media @mq-mobile {
+    font-size: 2rem;
+  }
+}
+
+.uap_playstatus_btn_wrapper {
+  cursor: pointer;
+  text-align: center;
+  height:100%;
+  width: 110px;
+  display:-webkit-box;
+  display:-webkit-flex;
+  display:-ms-flexbox;
+  display:flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 20px 15px;
+}
+.uap_playstatus_btn_wrapper:hover
+.glyphicon {
+  color: #eee;
+}
+
+.uap_btn_round {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  -webkit-transition: all 0.1s ease;
+  -o-transition: all 0.1s ease;
+  transition: all 0.1s ease;
+  background: #fcdc3d;
+  color: #fff;
+  font-size: 3rem;
+  text-align:center;
+  padding-left:7px;
+  background-color: @yellow;
+}
+.uap_btn_round
+.glyphicon {
+  -webkit-transform: scale(1,1.4);
+      -ms-transform: scale(1,1.4);
+          transform: scale(1,1.4);
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+}
+.uap_btn_round
+.glyphicon:before {
+  font-size: inherit;
+}

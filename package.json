@@ -1,0 +1,22 @@
+{
+  "name": "unikumAudioRecorder",
+  "version": "1.0.0",
+  "description": "Simple & Sweet",
+  "repository": "none",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-stylus": "^2.6.0",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "nib": "^1.1.2"
+  },
+  "dependencies": {
+    "stylus": "^0.54.5",
+    "stylus-type-utils": "0.0.3"
+  }
+}
