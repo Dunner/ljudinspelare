@@ -1,4 +1,4 @@
-$( document ).ready(function() { 
+$( document ).ready(function() {
 
   tinymce.init({
     selector: 'textarea',
@@ -53,7 +53,6 @@ $( document ).ready(function() {
     var audioPlayer = Object.create(AudioPlayer);
     audioPlayer.init(element);
     audioPlayer.audio = new Audio($(element).attr('data-url'));
-    console.log('Created AudioPlayer ' + audioPlayer);
     return audioPlayer;
   };
 
@@ -88,9 +87,13 @@ $( document ).ready(function() {
 
   AudioPlayer.startPlaying = function() {
     this.updateTimeAndProgress(0);
-    this.audio.play();
-    this.startTick();
-    $(this.element).addClass('unikum_audioplayer__isPlaying');
+    if(this.audio.duration) {
+      this.audio.play();
+      this.startTick();
+      $(this.element).addClass('unikum_audioplayer__isPlaying');
+    } else {
+      $(this.element).find('.uap_txtinfo').html('Fel, ljudklipp hittades inte');
+    }
   };
 
   AudioPlayer.stopPlaying = function() {
@@ -112,6 +115,13 @@ $( document ).ready(function() {
     return minutes + ":" + seconds;
   };
 
+  AudioPlayer.secondsToMinutesAlt = function(seconds) {
+		var minutes = Math.floor(seconds / 60);
+		if (minutes < 1) {
+			return seconds + ' sekunder';
+		}
+		return '~ ' + minutes + ' minuter';
+	};
 
   /**
    ** Transformer - Audio Player, audioplayer
@@ -155,19 +165,21 @@ $( document ).ready(function() {
 
   Transformer.replaceAudioElement = function(element) {
     var name = $(element).attr('data-name');
+    var duration = $(element).attr('data-duration');
     var url = $(element).attr('data-url');
     var newElement = $('<div/>', {
       class: 'unikum_audioplayer',
-      html: Transformer.getTemplate(name)
+      html: Transformer.getTemplate(name, duration)
     }).attr({
       'data-url': url,
-      'name': name
+      'data-name': name,
+      'data-duration': duration
     });
     $(element).replaceWith($(newElement));
     AudioPlayer.create(newElement);
   };
 
-  Transformer.getTemplate = function(name) {return `
+  Transformer.getTemplate = function(name, duration) {return `
     <div class="uap_top_wrapper">
       <div class="uap_playstatus_btn_wrapper">
         <div class="uap_btn_round">
@@ -177,6 +189,9 @@ $( document ).ready(function() {
       </div>
       <div class="uap_txtinfo">
         ${name}
+      </div>
+      <div class="uap_duration">
+        ${duration}
       </div>
     </div>
     <div class="uap_bottom_wrapper">
@@ -188,4 +203,4 @@ $( document ).ready(function() {
 
   Transformer.init();
 
-}); 
+});

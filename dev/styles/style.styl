@@ -55,7 +55,7 @@
 
 .umm_stage_wrapper {
   width: 100%;
-  height:250px;
+  min-height:250px;
   margin: 0 auto;
   position:relative;
 }
@@ -64,7 +64,6 @@
   display: flex;
   z-index: -1;
   width: 100%;
-  height: 100%;
   align-items: center;
   justify-content: center;
   flex-flow: row wrap;
@@ -76,35 +75,38 @@
   top:0px;
   bottom:0px;
   &.isShowing {
+    position:relative;
     z-index: 1;
     transform: scale(1);
     animation: umm_appear 0.3s;
   }
 }
 
-#umm_stage0 > :first-child {
+#umm_stage0 {padding-top:50px;}
+#umm_stage0 > div:first-child {
   margin-right:20px;
 }
 
-.record_nameinput {
+.record_nameinput, .record_namechangeinput  {
+  vertical-align: middle;
   background: transparent;
   border: none;
-  min-height: 60px;
   width:100%;
-  color:#333;
+  height:35px;
   border: none;
   padding-left: 8px;
-  font-size: 3rem;
-  font-weight: 200;
+  font-size: 22px;
+  color: #444;
+  font-family: 'Helvetica';
+  font-weight: 100;
   padding: 0 5px;
   white-space: normal;
   resize: none;
   overflow: hidden;
-  min-height: 50px;
   max-height: 100px;
   box-shadow: none;
+  border-bottom: 2px dashed #ddd;
 }
-
 
 .umm_sample_wrapper {
   width:100%;
@@ -184,12 +186,12 @@
   margin-bottom:20px;
 
   .uap_top_wrapper {
-    background: #efefef;
+    background: #FAFAFA;
     display:flex;
     align-items: center;
     justify-content: flex-start;
     width:100%;
-    height:120px;
+    height:80px;
   }
   & .glyphicon-pause {
     display: none;
@@ -204,6 +206,7 @@
      display: none;
    }
    & .glyphicon-pause {
+     left: -1px;
      display: block;
    }
   }
@@ -218,7 +221,7 @@
     .uap_track_progress {
       height: 100%;
       width: 0%;
-      background: #f00;
+      background: #4990E2;
       text-align:right;
       transition: width 1s linear;
     }
@@ -241,13 +244,29 @@
   }
 }
 
-.uap_txtinfo {}
+.uap_txtinfo {
+  font-size: 22px;
+  color: #363636;
+  padding-right: 20px;
+  font-family: 'Helvetica';
+  font-weight: 100;
+  position:relative;
+}
+.uap_duration {
+  font-size: 15px;
+  color: #888;
+  padding-right: 20px;
+  font-family: 'Helvetica';
+  font-style: italic;
+  font-weight: 100;
+  position:relative;
+}
 
 .uap_playstatus_btn_wrapper {
   cursor: pointer;
   text-align: center;
   height:100%;
-  width: 110px;
+  width: 100px;
   display:flex;
   align-items: center;
   justify-content: center;
@@ -262,23 +281,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     transition: all 0.1s ease;
-    background: #fcdc3d;
     color: #fff;
-    font-size: 3rem;
+    font-size: 3.8rem;
     text-align:center;
-    padding-left:7px;
-    background-color: #f00;
-    background-image: -webkit-gradient(linear, left top, right top, from(#f00), to(#f00));
-    background-image: -webkit-linear-gradient(left, #f00, #f00);
-    background-image: -moz-linear-gradient(left, #f00, #f00);
-    background-image: -ms-linear-gradient(left, #f00, #f00);
-    background-image: -o-linear-gradient(left, #f00, #f00);
+    padding-left:5px;
+    background-color: #4990E2;
+    box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.5);
     & .glyphicon {
-      transform: scale(1,1.4);
+      top:-2px;
+      transform: scale(0.9,1.2);
       transition: color 0.3s;
       &:before {
         font-size: inherit;
@@ -312,7 +327,7 @@
 
 
 
-.module_top {
+#unik_mic_modal .module_top {
   width: 100%;
   height: 250px;
   overflow: hidden;
@@ -329,6 +344,15 @@
     color: black;
     font-size: 3rem;
     animation: tryPopIn 1.5s linear;
+  }
+  .countdowntext {
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 10px;
+    color: #666;
+    font-size: 2rem;
+    justify-content: center;
   }
   .text, .timer {
     position:absolute;
@@ -370,7 +394,7 @@
       bottom:0px
       width:100%;
       heght:0px;
-      transition: height 0.1s ease;
+      transition: height 0.1s linear;
       overflow:hidden;
       svg {
         position:absolute;
@@ -432,23 +456,49 @@
   display:flex;
 }
 
-.module_bottom {
+#unik_mic_modal .module_bottom {
   height: 450px;
   width: 100%;
   background: #efefef;
 }
 
-.module_inner_wrapper {
+
+#unik_mic_modal .module_inner_wrapper {
+  white-space:normal;
+  overflow: hidden;
+  position:relative;
   margin: 0 auto;
-  flex-basis: 100%;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   padding-top: 20px;
   width: 300px;
   .btn {
     height: 40px;
     flex: 1 50%;
   }
+}
+#unik_mic_modal .module_wrapper_wide {
+  width: 400px;
+}
+#unik_mic_modal .umm_notsupported_title {
+  font-size: 2.4rem;
+  text-align:center;
+  width: 100%;
+}
+#unik_mic_modal .umm_notsupported_text {
+  font-size: 18px;
+  width: 100%;
+  word-wrap:break-word;
+  padding: 20px 0;
+  text-align: center;
+  color: #333;
+  font-weight: 100;
+  font-family: Helvetica;
+}
+#unik_mic_modal .umm_alertsvg {
+  fill: #ffbb23;
+  width: 100px;
 }
 
 

@@ -2,27 +2,24 @@
 * Gets loaded into the tinymce editor to style the audioplayer
 */
 
+.unikum_audio, .unikum_audio * {
+  box-sizing: border-box;
+  position: relative;
+}
 .unikum_audio {
-  height: 100px;
-  background: #eee;
+  height: 80px;
+  background: #FAFAFA;
+  display: flex;
   cursor: pointer;
-  border: 3px dashed black;
   position: relative;
   text-align: center;
-  padding-top: 30px;
   font-size: 1.4rem;
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+  overflow:hidden;
+  align-items: center;
+  justify-content: flex-start;
 }
-.unikum_audio:before {
-  display:block;
-  color:#666;
-  text-transform: uppercase;
-  content: 'Ljudfil:';
+.unikum_audio:hover {
+  border: 3px dashed black;
 }
 .unikum_audio:hover:after {
   display:block;
@@ -40,187 +37,61 @@
   padding-top: 20px;
   color: #fff;
   background: rgba(0,0,0,0.8);
-
 }
-.unikum_audioplayer,
-.unikum_audioplayer * {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */ /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-}
-
-.unikum_audioplayer,
-.unikum_audioplayer *:not(.glyphicon) {
-  //font-family: 'Roboto', sans-serif;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  position: relative;
-}
-.unikum_audioplayer {
-  text-select:none;
-  width:100%;
-  height:auto;
-  color: #555;
-  margin-bottom:20px;
-}
-.unikum_audioplayer
-.glyphicon-pause{
-  display: none;
-}
-.unikum_audioplayer.unikum_audioplayer__isPlaying {
-  margin-bottom:0px;
-}
-.unikum_audioplayer.unikum_audioplayer__isPlaying
-.uap_bottom_wrapper{
-  display:-webkit-box;
-  display:-webkit-flex;
-  display:-ms-flexbox;
-  display:flex;
-}
-.unikum_audioplayer.unikum_audioplayer__isPlaying
-.glyphicon-play{
-  margin-bottom:0px;
-}
-.unikum_audioplayer.unikum_audioplayer__isPlaying
-.glyphicon-pause{
-  margin-bottom:0px;
-}
-
-.uap_top_wrapper {
-  background: #efefef;
-  display:-webkit-box;
-  display:-webkit-flex;
-  display:-ms-flexbox;
-  display:flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  width:100%;
-  height:120px;
-}
-
-.uap_bottom_wrapper {
-  background: #dfdfdf;
-  display:none;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: start;
-  -webkit-justify-content: flex-start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  width:100%;
-  height:20px;
-  line-height: 20px;
-}
-
-.uap_track_progress {
-  height: 100%;
-  width: 0%;
-  background: @yellow;
-  text-align:right;
-  -webkit-transition: width 1s linear;
-  -o-transition: width 1s linear;
-  transition: width 1s linear;
-}
-
-.uap_track_time,
-.uap_track_duration {
-  position:absolute;
-  top:0px;
-  left:0px;
-  right:0px;
-  line-height: 20px;
-  padding: 0 5px;
-}
-.uap_track_time {
-  right: 50%;
-  text-align:left;
-}
-.uap_track_duration {
-  left: 50%;
-  text-align:right;
-}
-
 .uap_txtinfo {
-  font-size: 3rem;
-  font-weight: 200;
-  padding: 0 5px;
-  white-space: normal;
-  @media @mq-mobile {
-    font-size: 2rem;
-  }
+  font-size: 22px;
+  color: #444;
+  padding-right: 20px;
+  font-family: 'Helvetica';
+  font-weight: 100;
+  position:relative;
 }
-
-.uap_playstatus_btn_wrapper {
-  cursor: pointer;
+.uap_duration {
+  font-size: 15px;
+  color: #888;
+  padding-right: 20px;
+  font-family: 'Helvetica';
+  font-style: italic;
+  font-weight: 100;
+  position:relative;
+}
+.uap_circle {
   text-align: center;
   height:100%;
-  width: 110px;
-  display:-webkit-box;
-  display:-webkit-flex;
-  display:-ms-flexbox;
+  width: 100px;
   display:flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  align-items: center;
+  justify-content: center;
   padding: 20px 15px;
 }
-.uap_playstatus_btn_wrapper:hover
-.glyphicon {
-  color: #eee;
+.uap_circle:before {
+  box-sizing: border-box;
+  position: relative;
+  content: '';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  transition: all 0.1s ease;
+  color: #fff;
+  font-size: 3.8rem;
+  text-align:center;
+  padding-left:5px;
+  background-color: #4990E2;
+  box-shadow: 1px 2px 4px 0px rgba(0,0,0,0.5);
 }
 
-.uap_btn_round {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  -webkit-transition: all 0.1s ease;
-  -o-transition: all 0.1s ease;
-  transition: all 0.1s ease;
-  background: #fcdc3d;
-  color: #fff;
-  font-size: 3rem;
-  text-align:center;
-  padding-left:7px;
-  background-color: @yellow;
-}
-.uap_btn_round
-.glyphicon {
-  -webkit-transform: scale(1,1.4);
-      -ms-transform: scale(1,1.4);
-          transform: scale(1,1.4);
-  -webkit-transition: color 0.3s;
-  -o-transition: color 0.3s;
-  transition: color 0.3s;
-}
-.uap_btn_round
-.glyphicon:before {
-  font-size: inherit;
+.uap_circle:after {
+  content: '';
+  position:absolute;
+  left:40px;
+  top:20px;
+  text-align: center;
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 24px solid #fff;
 }
