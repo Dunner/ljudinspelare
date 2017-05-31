@@ -1,5 +1,4 @@
 
-
 <div class="umm_header">
   <div id="umm_btn_restart"><span class="glyphicon glyphicon-repeat"></span></div>
   <div id="umm_btn_cancel"><span class="glyphicon glyphicon-remove"></span></div>
@@ -196,17 +195,46 @@
       </svg>
 
       <div class="umm_notsupported_text">
-        Tyvärr stödjer webbläsaren Safari inte ljudinspelning på webben,
-        för att använda ljudinspelning föreslår vi att du istället använder dig av Chrome eller Firefox
+        Tyvärr stödjer webbläsarna Safari & Internet Explorer inte ljudinspelning på webben,
+        för att använda ljudinspelning föreslår vi att du istället använder dig av Chrome, Firefox eller Edge
+        <br/>
+        <br/>
+        Du kan såklart fortfarande ladda upp ljudklipp från din dator.
       </div>
+
+    </div>
+    <div class="module_inner_wrapper">
+      <button class="btn btn-primary umm_open_video_recorder">Ladda upp ljudklipp</button>
     </div>
     <div class="module_inner_wrapper" >
-      <button class="btn btn-primary umm_cancel_recording">Avbryt</button>
+      <button class="btn btn-default umm_cancel_recording">Avbryt</button>
     </div>
   </div>
 
 </div>
 
+<!--   IOS Special Stage5  -->
+
+<div id="umm_stage5" class="umm_stage">
+    <div class="module_inner_wrapper module_wrapper_wide">
+      <div class="umm_notsupported_title"><h3>iPhone & iPad</h3></div>
+
+
+      <div class="umm_notsupported_text">
+        På iPhone och iPad använder vi en speciallösning för att spela in ljud.
+        Vi använder din <b>videoinspelarapp</b>, Vi plockar bara ut ljudet och använder inte videon.
+      </div>
+    </div>
+    <div class="module_inner_wrapper" >
+      <button class="btn btn-primary umm_open_video_recorder">Öppna videoinspelare</button>
+      <button class="btn btn-default umm_cancel_recording">Avbryt</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="umm_coverfade"></div>
+
 <!-- Hidden input for our audio file - minihack, trigger click on label to reach fileinput -->
 <label for="umm_fileinput" id="umm_fileinput_label" style="opacity:0">123</label>
-<input id="umm_fileinput" type="file" accept="audio/*" capture="microphone" style="opacity:0"/>
+<input id="umm_fileinput" name="audioCapture" type="file" accept="audio/*|video/*" capture="microphone" style="opacity:0"/>
