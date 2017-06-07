@@ -28,13 +28,13 @@
    },
 
    giveName: function() {
-     this.name = $('.record_nameinput').val();
+     this.name = $('.uap_stage2_record_nameinput').val();
      this.setName(this.name);
    },
 
    setName: function(name) {
      this.name = name;
-     $('.record_nameinput').val(this.name);
+     $('.uap_stage2_record_nameinput').val(this.name);
    },
 
    setBlob: function(blob) {

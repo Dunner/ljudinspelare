@@ -1,6 +1,6 @@
 /*
 
-TODO: Make this a serviceworker 
+TODO: Make this a serviceworker
 (if browser support is good enough)
 Maybe in the future // JH
 
@@ -59,7 +59,7 @@ MP3Encoder.encode = function (arrayBuffer) {
 };
 
 MP3Encoder.finish = function (cb) {
-  MP3Encoder.appendToBuffer(MP3Encoder.mp3Encoder.flush());
-  cb(MP3Encoder.dataBuffer);
+  if (MP3Encoder.mp3Encoder) MP3Encoder.appendToBuffer(MP3Encoder.mp3Encoder.flush());
+  if (cb && MP3Encoder.dataBuffer) cb(MP3Encoder.dataBuffer);
   MP3Encoder.clearBuffer(); //free up memory
 };

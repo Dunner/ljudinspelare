@@ -1,11 +1,6 @@
 
 function MP3Recorder (config) {
 
-  navigator.getUserMedia = navigator.getUserMedia ||
-  navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia ||
-  navigator.msGetUserMedia;
-
   var recorder = this, startTime = 0, context = new AudioContext(), audioStream;
   config = config || {};
 
@@ -78,26 +73,31 @@ function MP3Recorder (config) {
     if (context && context.state !== 'closed' && context.state !== 'closing') {
       context.close();
     }
-    console.log('destroy');
   }
 
   this.getMp3Blob = function (cb) {
+    var recorder = this;
     MP3Encoder.finish(function(data){
       var blob = new Blob(data, {type: 'audio/mp3'});
-      var newBlobUrl = window.URL.createObjectURL(blob);
-      console.log('mp3file with length:',data.length);
-      cb(blob);
+      if (blob.size > 0) {
+        var newBlobUrl = window.URL.createObjectURL(blob);
+        console.log('mp3file created with length:',data.length);
+        cb(blob);
+        recorder.destroy();
+      }
+
       // ############## DOWNLOAD
+      /*
       var a = document.createElement("a");
       document.body.appendChild(a);
       a.style = "display: none";
       a.href = newBlobUrl;
       a.download = 'mp3file.mp3';
       a.click();
+      */
       // ############## DOWNLOAD
 
     });
-    this.destroy();
   };
 
 }

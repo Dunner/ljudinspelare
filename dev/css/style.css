@@ -137,8 +137,8 @@
 #umm_stage0 > div:first-child {
   margin-right: 20px;
 }
-.record_nameinput,
-.record_namechangeinput {
+.uap_stage2_record_nameinput,
+.uap_stage3_record_namechangeinput {
   vertical-align: middle;
   background: transparent;
   border: none;

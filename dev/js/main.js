@@ -147,7 +147,7 @@ $( document ).ready(function() {
   Transformer.findAndReplace = function() {
     this.findAudioElements();
     this.replaceAudioElements();
-  }
+  };
 
   Transformer.findAudioElements = function() {
     this.untransformedAudioElements = $(this.contextDocument).find(this.tagToReplace).toArray();
@@ -158,7 +158,7 @@ $( document ).ready(function() {
     console.log(this.untransformedAudioElements.length, 'Audioplayers found');
     if (this.untransformedAudioElements.length > 0) {
       this.untransformedAudioElements.forEach(function(element){
-        Transformer.replaceAudioElement(element)
+        Transformer.replaceAudioElement(element);
       });
     }
   };
@@ -179,27 +179,29 @@ $( document ).ready(function() {
     AudioPlayer.create(newElement);
   };
 
-  Transformer.getTemplate = function(name, duration) {return `
-    <div class="uap_top_wrapper">
-      <div class="uap_playstatus_btn_wrapper">
-        <div class="uap_btn_round">
-          <div class="glyphicon glyphicon-play"></div>
-          <div class="glyphicon glyphicon-pause"></div>
-        </div>
-      </div>
-      <div class="uap_txtinfo">
-        ${name}
-      </div>
-      <div class="uap_duration">
-        ${duration}
-      </div>
-    </div>
-    <div class="uap_bottom_wrapper">
-      <div class="uap_track_progress"></div>
-      <span class="uap_track_time"></span>
-      <span class="uap_track_duration"></span>
-    </div>
-  `};
+  Transformer.getTemplate = function(name, duration) {
+    return (
+      '<div class="uap_top_wrapper">'+
+        '<div class="uap_playstatus_btn_wrapper">'+
+          '<div class="uap_btn_round">'+
+            '<div class="glyphicon glyphicon-play"></div>'+
+            '<div class="glyphicon glyphicon-pause"></div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="uap_txtinfo">'+
+          name+
+        '</div>'+
+        '<div class="uap_duration">'+
+          duration+
+        '</div>'+
+      '</div>'+
+      '<div class="uap_bottom_wrapper">'+
+        '<div class="uap_track_progress"></div>'+
+        '<span class="uap_track_time"></span>'+
+        '<span class="uap_track_duration"></span>'+
+      '</div>'
+    );
+  };
 
   Transformer.init();
 
