@@ -10,11 +10,19 @@ Converts any audiosource to mp3,
 by first decoding and then making a wav,
 using wavconverter.js
 
+If can't convert - returns original file
+if under 20mb
+
 */
 
 var MP3Converter = {
 
   transform: function(file, cb) {
+
+    var fileSize = Math.round( ( file.size / 1024 ) / 1024 )
+    console.log('File size:', fileSize );
+
+
     var reader = new FileReader();
     var context = null;
 
@@ -26,8 +34,22 @@ var MP3Converter = {
         usingWebAudio = false;
     }
 
+    function tryOriginalFile() {
+      if ( fileSize < 20 ) {
+        //File is smaller than 20mb, send
+        var dataView = new DataView(arrayBuffer);
+        var blob = new Blob([dataView]);
+        cb('fallback', blob);
+        return;
+      } else {
+        //File too large & can't convert, send error
+        cb('error');
+      }
+    }
+
     reader.addEventListener("load", function () {
       var result = reader.result;
+
       context.decodeAudioData(result,
       function(decodedData) {
         console.log(decodedData);
@@ -62,6 +84,7 @@ var MP3Converter = {
 
       },
       function(error) {
+        tryOriginalFile(result);
         console.log(error);
       }
       );
@@ -119,6 +142,7 @@ var MP3Converter = {
           appendToBuffer(mp3buf);
           remaining -= maxSamples;
           var progress = (1 - remaining / samplesLeft.length);
+          console.log(Math.round(progress*100)+'% remaining')
         }
         if (!wav) {return;}
         var mp3buf = mp3Encoder.flush();
