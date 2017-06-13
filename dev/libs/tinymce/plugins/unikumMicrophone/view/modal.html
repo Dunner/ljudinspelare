@@ -1,6 +1,6 @@
 
 <div class="umm_header">
-  <div id="umm_btn_restart"><span class="glyphicon glyphicon-repeat"></span></div>
+  <!-- <div id="umm_btn_restart"><span class="glyphicon glyphicon-repeat"></span></div>-->
   <div id="umm_btn_cancel"><span class="glyphicon glyphicon-remove"></span></div>
 </div>
 
@@ -110,9 +110,7 @@
               </div>
             </div>
             <div class="uap_txtinfo">
-              <textarea class="uap_stage2_record_nameinput">
-                Namn på ljudklipp
-              </textarea>
+              <textarea class="uap_stage2_record_nameinput">Namn på ljudklipp</textarea>
             </div>
           </div>
           <div class="uap_bottom_wrapper">
@@ -153,9 +151,7 @@
               </div>
             </div>
             <div class="uap_txtinfo">
-              <textarea class="uap_stage3_record_namechangeinput">
-                Namn på ljudklipp
-              </textarea>
+              <textarea class="uap_stage3_record_namechangeinput">Namn på ljudklipp</textarea>
             </div>
           </div>
           <div class="uap_bottom_wrapper">
@@ -219,7 +215,15 @@
     <div class="module_inner_wrapper module_wrapper_wide">
       <div class="umm_notsupported_title"><h3>iPhone & iPad</h3></div>
 
+      <div class="umm_notsupported_text">
+        Stöd för ljudinspelning på <b>iPhone</b> & <b>iPad</b> kommer preliminärt i September 2017
+      </div>
+    </div>
+    <div class="module_inner_wrapper" >
+      <button class="btn btn-default umm_stage5_cancel_recording">Avbryt</button>
+    </div>
 
+<!-- 
       <div class="umm_notsupported_text">
         På iPhone och iPad använder vi en speciallösning för att spela in ljud.
         Vi använder din <b>videoinspelarapp</b>, Vi plockar bara ut ljudet och använder inte videon.
@@ -228,7 +232,7 @@
     <div class="module_inner_wrapper" >
       <button class="btn btn-primary umm_stage5_open_video_recorder">Öppna videoinspelare</button>
       <button class="btn btn-default umm_stage5_cancel_recording">Avbryt</button>
-    </div>
+    </div> -->
   </div>
 
 </div>
@@ -239,14 +243,20 @@
     <div class="module_inner_wrapper module_wrapper_wide">
       <div class="umm_notsupported_title"><h3>Filuppladdning</h3></div>
 
-
-      <div class="umm_file_tolarge">
+      <h4 class="umm_file_tolarge">
         Din ljudfil är större än 20mb,<br>
         Försöker minska filstorleken
-      </div>
+      </h4>
+    </div>
+
+    <div class="module_inner_wrapper" >
+      <h4 class="umm_compressing">
+        Komprimerar
+      </h4>
 
       <div class="umm_convert_progress">
         <div class="umm_convert_progress_inside"></div>
+        <span data-textprogress></span>
       </div>
 
     </div>

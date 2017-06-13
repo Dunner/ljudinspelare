@@ -16,10 +16,12 @@ else error
 
 */
 
-var MP3Converter = {
+var MP3Transformer = {
+
+  progress: 0,
 
   transform: function(file, cb) {
-
+    console.log(file)
     var fileSize = Math.round( ( file.size / 1024 ) / 1024 )
     console.log('File size:', fileSize );
 
@@ -35,12 +37,16 @@ var MP3Converter = {
         usingWebAudio = false;
     }
 
-    function tryOriginalFile() {
+    function tryOriginalFile(arrayBuffer) {
       if ( fileSize < 20 ) {
         //File is smaller than 20mb, send
-        var dataView = new DataView(arrayBuffer);
-        var blob = new Blob([dataView]);
-        cb('done', blob);
+        if (typeof arrayBuffer !== 'undefined') {
+          var dataView = new DataView(arrayBuffer);
+          var blob = new Blob([dataView]);
+          cb('done', blob);
+        } else {
+          cb('error');
+        }
         return;
       } else {
         //File too large & can't convert, send error
@@ -50,6 +56,12 @@ var MP3Converter = {
 
     reader.addEventListener("load", function () {
       var result = reader.result;
+
+
+      if (file.type == 'audio/mp3') {
+        tryOriginalFile(result);
+        return;
+      }
 
       context.decodeAudioData(result,
       function(decodedData) {
@@ -78,7 +90,10 @@ var MP3Converter = {
 
         var b = new Blob(srclist, {type:'audio/wav'});
         cb('converting');
-        MP3Converter.convert(b,function(newBlob) {
+        var converter = new MP3Converter();
+        converter.convert(b,{
+          bitRate: 128
+        }, function(newBlob) {
           console.log(newBlob)
           cb('done', newBlob);
         });
@@ -99,99 +114,95 @@ var MP3Converter = {
       cb('upload');
       reader.readAsArrayBuffer(file);
     }
-  },
-
-  convert: function(blob, returnNewBlob){
-    var fileReader = new FileReader();
-    fileReader.onload = function(){
-      var arrayBuffer = this.result;
-
-      // ######### encoding wav to mp3
-      var mp3Encoder, maxSamples = 1152, wav, samplesLeft, config, dataBuffer, samplesRight;
-      var clearBuffer = function () {
-        dataBuffer = [];
-      };
-      var appendToBuffer = function (mp3Buf) {
-        dataBuffer.push(new Int8Array(mp3Buf));
-      };
-      var encode = function (arrayBuffer, callback) {
-        clearBuffer();
-        wav = window.lamejs.WavHeader.readHeader(new DataView(arrayBuffer));
-        if (!wav) {
-          console.log('error', 'msg: Specified file is not a Wave file');
-          return;
-        }
-        var dataView = new Int16Array(arrayBuffer, wav.dataOffset, wav.dataLen / 2);
-        samplesLeft = wav.channels === 1 ? dataView : new Int16Array(wav.dataLen / (2 * wav.channels));
-        samplesRight = wav.channels === 2 ? new Int16Array(wav.dataLen / (2 * wav.channels)) : undefined;
-        if (wav.channels > 1) {
-          for (var i = 0; i < samplesLeft.length; i++) {
-            samplesLeft[i] = dataView[i * 2];
-            samplesRight[i] = dataView[i * 2 + 1];
-          }
-        }
-        mp3Encoder = new window.lamejs.Mp3Encoder(wav.channels, wav.sampleRate, 96);
-        var remaining = samplesLeft.length;
-        for (var i = 0; remaining >= maxSamples; i += maxSamples) {
-          var left = samplesLeft.subarray(i, i + maxSamples);
-          var right;
-          if (samplesRight) {
-            right = samplesRight.subarray(i, i + maxSamples);
-          }
-          var mp3buf = mp3Encoder.encodeBuffer(left, right);
-          appendToBuffer(mp3buf);
-          remaining -= maxSamples;
-          var progress = Math.round((1 - remaining / samplesLeft.length)*100);
-          soundRecorder.convertProgress(progress);
-        }
-        if (!wav) {return;}
-        var mp3buf = mp3Encoder.flush();
-        appendToBuffer(mp3buf);
-        callback(dataBuffer)
-        // Done encoding wav to mp3
-        clearBuffer(); //free up memory
-      };
-
-      encode(arrayBuffer, function(dataBuffer) {
-        //Converting to Mp3
-        var newBlob = new Blob(dataBuffer, {type: 'audio/mp3'});
-        var newBlobUrl = window.URL.createObjectURL(newBlob);
-        console.log(newBlob)
-
-        // var a = document.createElement("a");
-        // document.body.appendChild(a);
-        // a.style = "display: none";
-        // a.href = newBlobUrl;
-        // a.download = audioPreviewObject.name+'.mp3';
-        // a.click();
-
-        returnNewBlob(newBlob);
-      });
-
-
-
-    };
-
-    var dataURItoBlob = function(dataURI) {
-      // convert base64 to raw binary data held in a string
-      var byteString = atob(dataURI.split(',')[1]);
-
-      // separate out the mime component
-      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-      // write the bytes of the string to an ArrayBuffer
-      var arrayBuffer = new ArrayBuffer(byteString.length);
-      var _ia = new Uint8Array(arrayBuffer);
-      for (var i = 0; i < byteString.length; i++) {
-        _ia[i] = byteString.charCodeAt(i);
-      }
-
-      var dataView = new DataView(arrayBuffer);
-      var blob = new Blob([dataView], { type: mimeString });
-      return blob;
-    }
-
-    fileReader.readAsArrayBuffer(blob);
   }
 
+};
+
+
+
+var MP3Converter = function (config) {
+  config = config || {};
+  var busy = false;
+  var mp3Worker = new Worker('js/mp3worker.js');
+
+  this.isBusy = function () {
+    return busy
+  };
+
+  this.convert = function (blob) {
+    console.log(blob)
+    var conversionId = 'conversion_' + Date.now(),
+      tag = conversionId + ":";
+    var opts = [];
+    for(var i=1; i < arguments.length;i++){
+      opts.push(arguments[i]);
+    }
+    console.log(tag, 'Starting conversion');
+    var preferredConfig = {}, onSuccess, onProgress, onError;
+    if (typeof opts[0] == 'object') {
+      preferredConfig = opts.shift();
+    }
+
+
+    onSuccess = opts.shift();
+    onProgress = opts.shift();
+    onError = opts.shift();
+
+    if (busy) {
+      throw ("Another conversion is in progress");
+    }
+
+    var initialSize = blob.size,
+      fileReader = new FileReader(),
+      startTime = Date.now();
+
+    fileReader.onload = function (e) {
+      console.log(tag, "Passed to BG process");
+      mp3Worker.postMessage({
+        cmd: 'init',
+        config: preferredConfig
+      });
+      
+      mp3Worker.postMessage({cmd: 'encode', rawInput: e.target.result});
+      mp3Worker.postMessage({cmd: 'finish'});
+
+      mp3Worker.onmessage = function (e) {
+        if (e.data.cmd == 'end') {
+          console.log(tag, "Done converting to Mp3");
+          var mp3Blob = new Blob(e.data.buf, {type: 'audio/mp3'});
+          console.log(tag, "Conversion completed in: " + ((Date.now() - startTime) / 1000) + 's');
+          var finalSize = mp3Blob.size;
+          console.log(tag +
+            "Initial size: = " + initialSize + ", " +
+            "Final size = " + finalSize
+            + ", Reduction: " + Number((100 * (initialSize - finalSize) / initialSize)).toPrecision(4) + "%");
+
+          busy = false;
+
+          if(onProgress && typeof onProgress=='function'){
+            onProgress(1);
+          }
+
+          if (onSuccess && typeof onSuccess === 'function') {
+            onSuccess(mp3Blob);
+          }
+        } else if(e.data.cmd == 'progress'){
+          //post progress
+          if (MP3Transformer.progress !== Math.round((e.data.progress)*100) ) {
+            MP3Transformer.progress = Math.round((e.data.progress)*100);
+            soundRecorder.convertProgress(MP3Transformer.progress);
+          }
+          if(onProgress && typeof onProgress=='function'){
+            onProgress(e.data.progress);
+          }
+        } else if(e.data.cmd == 'error'){
+
+        }
+      };
+    };
+    busy = true;
+    fileReader.readAsArrayBuffer(blob);
+  }
 }
+
+

@@ -2,6 +2,7 @@
   'use strict';
 
   console.log('MP3 conversion worker started.');
+  importScripts('/js/lame.min.js');
 
   var mp3Encoder, maxSamples = 1152,
     wav, samplesLeft, config, dataBuffer, samplesRight;

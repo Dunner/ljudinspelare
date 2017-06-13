@@ -187,13 +187,24 @@
 .umm_convert_progress {
   height: 30px;
   width: 300px;
-  border: 2px solid #000;
+  border: 1px solid #666;
+  border-radius: 3px;
   margin: 0 auto;
+  text-align: center;
+  line-height: 30px;
+  position: relative;
+  overflow: hidden;
 }
 .umm_convert_progress .umm_convert_progress_inside {
-  background: #00f;
-  height: 30px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #64b5f6;
+  height: 100%;
   width: 0%;
+  z-index: -1;
 }
 .umm_sample_wrapper {
   width: 100%;
@@ -701,6 +712,9 @@
   text-align: center;
   width: 100%;
 }
+#unik_mic_modal .umm_notsupported_title * {
+  margin-top: 0px;
+}
 #unik_mic_modal .umm_notsupported_text {
   font-size: 18px;
   width: 100%;
@@ -714,6 +728,7 @@
 #unik_mic_modal .umm_alertsvg {
   fill: #ffbb23;
   width: 90px;
+  height: 100px;
 }
 @-moz-keyframes modalDelayedShow {
   0% {
