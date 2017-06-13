@@ -98,12 +98,12 @@
      this.endTick();
    },
 
-   saveAudioFile:function () {
+   downloadFile:function () {
      var a = document.createElement("a");
      document.body.appendChild(a);
      a.style = "display: none";
      a.href = this.blobUrl;
-     a.download = this.name;
+     a.download = this.name+'.mp3';
      a.click();
    }
  }

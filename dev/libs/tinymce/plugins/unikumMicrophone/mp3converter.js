@@ -1,10 +1,7 @@
 
 /*
 
-TODO: Make this a serviceworker
-(if browser support is good enough)
-Maybe in the future // JH
-
+JH
 ____________________________
 Converts any audiosource to mp3,
 by first decoding and then making a wav,
@@ -38,7 +35,9 @@ var MP3Transformer = {
     }
 
     function tryOriginalFile(arrayBuffer) {
-      if ( fileSize < 20 ) {
+      console.log(file)
+      if ( fileSize < 20 && (file.type).indexOf('audio') !== -1) {
+      console.log(arrayBuffer)
         //File is smaller than 20mb, send
         if (typeof arrayBuffer !== 'undefined') {
           var dataView = new DataView(arrayBuffer);
@@ -49,6 +48,7 @@ var MP3Transformer = {
         }
         return;
       } else {
+      console.log('3')
         //File too large & can't convert, send error
         cb('cantconvert');
       }
@@ -56,11 +56,6 @@ var MP3Transformer = {
 
     reader.addEventListener("load", function () {
       var result = reader.result;
-
-      if (file.type == 'audio/mp3' && fileSize < 20) {
-        tryOriginalFile(result);
-        return;
-      }
 
       context.decodeAudioData(result,
       function(decodedData) {
@@ -87,7 +82,10 @@ var MP3Transformer = {
         }
 
         var b = new Blob(srclist, {type:'audio/wav'});
+
         cb('converting');
+        if (fileSize >= 20) {cb('converting-big');}
+
         var converter = new MP3Converter();
         converter.convert(b,{
           bitRate: 128
