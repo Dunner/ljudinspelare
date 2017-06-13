@@ -6,7 +6,21 @@
    init: function(element) {
      this.element = element;
      this.reset();
+   },
+
+   reset: function() {
+    this.blob = undefined;
+    this.blobUrl = undefined;
+    this.name = 'Ljudklipp';
+    if (this.audio) {
+      this.audio.pause();
+    }
+    this.audio = undefined;
+    this.tickInterval = undefined;
+    this.setName(this.name);
+     $(this.element).find('.uap_playstatus_btn_wrapper').off('click');
      $(this.element).find('.uap_playstatus_btn_wrapper').on('click', function() {
+        console.log(PreviewPlayer.audio)
         PreviewPlayer.audio.onended = function(e){
           PreviewPlayer.stopPlaying();
         };
@@ -16,15 +30,6 @@
           PreviewPlayer.startPlaying();
         }
      });
-   },
-
-   reset: function() {
-     this.blob = undefined;
-     this.blobUrl = undefined;
-     this.name = 'Ljudklipp';
-     this.audio = undefined;
-     this.tickInterval = undefined;
-     this.setName(this.name);
    },
 
    giveName: function() {

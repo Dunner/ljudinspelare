@@ -64,9 +64,7 @@ var MP3Transformer = {
 
       context.decodeAudioData(result,
       function(decodedData) {
-        console.log(decodedData);
         var leftChannel = decodedData.getChannelData(0);
-        console.log(leftChannel)
         var i=0, vol=0.1,
             sampleRate = decodedData.sampleRate,
             wav = new Wav({sampleRate: sampleRate, channels: 1}),
@@ -130,7 +128,6 @@ var MP3Converter = function (config) {
   };
 
   this.convert = function (blob) {
-    console.log(blob)
     var conversionId = 'conversion_' + Date.now(),
       tag = conversionId + ":";
     var opts = [];
