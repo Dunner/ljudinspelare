@@ -10,8 +10,9 @@ Converts any audiosource to mp3,
 by first decoding and then making a wav,
 using wavconverter.js
 
-If can't convert - returns original file
-if under 20mb
+If can't convert - 
+returns original file if under 20mb.
+else error
 
 */
 
@@ -39,11 +40,11 @@ var MP3Converter = {
         //File is smaller than 20mb, send
         var dataView = new DataView(arrayBuffer);
         var blob = new Blob([dataView]);
-        cb('fallback', blob);
+        cb('done', blob);
         return;
       } else {
         //File too large & can't convert, send error
-        cb('error');
+        cb('cantconvert');
       }
     }
 
@@ -60,13 +61,13 @@ var MP3Converter = {
             buffer = new Float32Array(sampleRate);
 
         while(i<sampleRate){
-            if( parseInt(i/100) % 2 ){
-                buffer[i] = -vol;
-            }
-            else {
-                buffer[i] = vol;
-            }
-            i++;
+          if( parseInt(i/100) % 2 ){
+            buffer[i] = -vol;
+          }
+          else {
+            buffer[i] = vol;
+          }
+          i++;
         }
         wav.setBuffer(leftChannel);
 
@@ -76,7 +77,7 @@ var MP3Converter = {
         }
 
         var b = new Blob(srclist, {type:'audio/wav'});
-
+        cb('converting');
         MP3Converter.convert(b,function(newBlob) {
           console.log(newBlob)
           cb('done', newBlob);
@@ -101,7 +102,6 @@ var MP3Converter = {
   },
 
   convert: function(blob, returnNewBlob){
-    console.log(blob)
     var fileReader = new FileReader();
     fileReader.onload = function(){
       var arrayBuffer = this.result;
@@ -141,8 +141,8 @@ var MP3Converter = {
           var mp3buf = mp3Encoder.encodeBuffer(left, right);
           appendToBuffer(mp3buf);
           remaining -= maxSamples;
-          var progress = (1 - remaining / samplesLeft.length);
-          console.log(Math.round(progress*100)+'% remaining')
+          var progress = Math.round((1 - remaining / samplesLeft.length)*100);
+          soundRecorder.convertProgress(progress);
         }
         if (!wav) {return;}
         var mp3buf = mp3Encoder.flush();
