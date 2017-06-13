@@ -57,8 +57,7 @@ var MP3Transformer = {
     reader.addEventListener("load", function () {
       var result = reader.result;
 
-
-      if (file.type == 'audio/mp3') {
+      if (file.type == 'audio/mp3' && fileSize < 20) {
         tryOriginalFile(result);
         return;
       }
@@ -67,8 +66,9 @@ var MP3Transformer = {
       function(decodedData) {
         console.log(decodedData);
         var leftChannel = decodedData.getChannelData(0);
+        console.log(leftChannel)
         var i=0, vol=0.1,
-            sampleRate = 48000,
+            sampleRate = decodedData.sampleRate,
             wav = new Wav({sampleRate: sampleRate, channels: 1}),
             buffer = new Float32Array(sampleRate);
 
